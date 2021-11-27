@@ -1,24 +1,24 @@
 $(document).ready(function(){
-	var mode=0;
-	var size = 10;
-	var color = "black";
-	var x;
-	var y;
-	var isPressed;
-	var sizeField = $("#size");
+	let mode=0;
+	let size = 10;
+	let color = "black";
+	let x;
+	let y;
+	let isPressed;
+	let sizeField = $("#size");
 	/*var canvas = document.getElementById("myCanvas");
 	var colorElement = document.getElementById("color");
 	var clearElement  = document.getElementById("clear");
 
 	var ctx = canvas.getContext("2d");*/
-	var canvas = $("canvas");
-	var colorElement = $("#color");
-	var clearElement = $("#clear");
-	var bounds = document.getElementById("myCanvas").getBoundingClientRect();
-	var ctx = canvas[0].getContext("2d");
+	const canvas = $("canvas");
+	const colorElement = $("#color");
+	const clearElement = $("#clear");
+	//const bounds = document.getElementById("myCanvas").getBoundingClientRect();
+	const ctx = canvas[0].getContext("2d");
 	
-	ctx.canvas.width = screen.width;
-	ctx.canvas.height = screen.height;
+	ctx.canvas.width = window.innerWidth;
+	ctx.canvas.height = window.innerHeight;
 	$("#mode").click(()=>{
 		$("html").fadeOut(500);
 		setTimeout(function(){
@@ -66,14 +66,14 @@ $(document).ready(function(){
 		size = sizeChange;
 		sizeField.val(size);
 	});
-	var prevX,prevY;
-	var flag=false,dot_flag=false;
+	//var prevX,prevY;
+	//var flag=false,dot_flag=false;
 	//canvas.addEventListener("mousedown",(e)=>{
 	canvas.on("mousedown",(e)=>{
-		//isPressed = true;
-		//x = e.clientX - ctx.canvas.offsetLeft;
-        //y = e.clientY - ctx.canvas.offsetTop;
-		prevX = x;
+		isPressed = true;
+		x = e.pageX - ctx.canvas.offsetLeft;
+        y = e.pageY - ctx.canvas.offsetTop;
+		/*prevX = x;
 		prevY = y;
 		x = e.offsetX;
 		y = e.offsetY;
@@ -82,24 +82,26 @@ $(document).ready(function(){
 		if (dot_flag) {
             drawCircle(x,y);
             dot_flag = false;
-        }
+        }*/
 	});
 	//canvas.addEventListener("mouseup",(e)=>{
 	canvas.on("mouseup",(e)=>{
-		//isPressed = false;
-		flag = false;
-		//x = undefined;
-		//y = undefined;
+		isPressed = false;
+		//flag=false;
+		x = undefined;
+		y = undefined;
 	});
 	//canvas.addEventListener("mousemove",(e)=>{
 	canvas.on("mousemove",(e)=>{
-		if(flag){
-		x2 = e.offsetX;
-		y2 = e.offsetY;
-		drawCircle(x2,y2);
-		drawLine(x,y,x2,y2);
-		x = x2;
-		y = y2;
+		if(isPressed){
+		//x2 = e.offsetX;
+		//y2 = e.offsetY;
+			const x2 = e.pageX - ctx.canvas.offsetLeft;
+			const y2 = e.pageY - ctx.canvas.offsetTop;
+			drawCircle(x2,y2);
+			drawLine(x,y,x2,y2);
+			x = x2;
+			y = y2;
 		}
 	});
 
