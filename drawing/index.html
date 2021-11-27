@@ -1,0 +1,40 @@
+<!Doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing App</title>
+	<script src="https://kit.fontawesome.com/a1b34c988b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+	<div id="upper-toolbox" class="container">
+		<button id="save">SAVE</button>
+		<button id="mode" class="go-right">
+			<i id="mode-icon"class="fas fa-moon fa-3x"></i>
+		</button>
+	</div>
+	<canvas id="myCanvas" width="500" height="700"></canvas>
+	<div id="lower-toolbox" class="container">
+		<button id="decrease">
+			<i class="fas fa-minus fa-2x"></i>
+		</button>
+		<input id="size" type="text" value="10" align="center"></input>
+		<button id="increase">
+			<i class="fas fa-plus fa-2x"></i>
+		</button>
+		<input id="color" type="color"></input>
+		<div class="go-right">
+			<button id="eraser" class="go-right">
+				<i class="fas fa-eraser fa-2x"></i>
+			</button>
+			<button id="clear" class="go-right">
+				<i class="fas fa-times fa-2x"></i>
+			</button>
+		</div>
+	</div>
+	<!--JS plugins-->
+	<script src="js/jquery-3.6.0.min.js"></script>
+	<script src="js/script.js"></script>
+</body>
+</html>
