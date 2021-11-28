@@ -40,7 +40,7 @@ $(document).ready(function(){
 			if(mode==1){
 				canvas.css("background","black");
 				canvas.css("border","2px solid #48dbfb");
-				$(".container").css({"border":"5px solid #48dbfb","background":"black"});
+				$(".container").css({"border":"2px solid #48dbfb","background":"black"});
 				$("button").css({"border":"2px solid #48dbfb","background":"black","color":"#48dbfb"});
 				$("#mode").css({"background":"white","color":"#ff9900"});
 			}
