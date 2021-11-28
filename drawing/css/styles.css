@@ -50,7 +50,7 @@ button, input{
 	margin-bottom: 0;
 	margin-right: 5px;
 	margin-left: 5px;
-	/*border: 0;*/
+	border: 0;
 	border-radius: 5px;
 	transition: .3s ease-in-out;
 }
