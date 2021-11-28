@@ -21,22 +21,17 @@ $(document).ready(function(){
 	//canvass.width = window.innerWidth;
 	//canvass.height = window.innerHeight;
 	
-	window.addEventListener('resize', resizeCanvas, false);
+	//window.addEventListener('resize', resizeCanvas, false);
 	
-	function resizeCanvas() {
+	//function resizeCanvas() {
     ctx.canvas.width = window.innerWidth;
 	ctx.canvas.height = window.innerHeight;
-                
-    /**
-     * Your drawings need to be inside this function otherwise they will be reset when 
-     * you resize the browser window and the canvas goes will be cleared.
-     */
-    drawStuff(); 
-  }
+    //drawStuff(); 
+  //}
   
-  resizeCanvas();
+  //resizeCanvas();
 	
-	function drawStuff(){
+	//function drawStuff(){
 	$("#mode").click(()=>{
 		$("html").fadeOut(500);
 		setTimeout(function(){
@@ -78,6 +73,7 @@ $(document).ready(function(){
 		sizeField.val(size);
 	});
 
+	let prevX,prevY;
 	//document.querySelector("#size").addEventListener("change",function () {
 	sizeField.on("change",()=>{
 		sizeChange = parseInt(sizeField.val());
@@ -89,6 +85,8 @@ $(document).ready(function(){
 	//canvas.addEventListener("mousedown",(e)=>{
 	canvas.on("mousedown",(e)=>{
 		isPressed = true;
+		prevX = x;
+		prevY = y;
 		x = e.pageX - ctx.canvas.offsetLeft;
         y = e.pageY - ctx.canvas.offsetTop;
 	});
@@ -101,16 +99,20 @@ $(document).ready(function(){
 	//canvas.addEventListener("mousemove",(e)=>{
 	canvas.on("mousemove",(e)=>{
 		if(isPressed){
-		//x2 = e.offsetX;
-		//y2 = e.offsetY;
-			e.preventDefault();
-			e.stopPropagation();
-			const x2 = e.pageX - ctx.canvas.offsetLeft;
+			//e.preventDefault();
+			//e.stopPropagation();
+			/*const x2 = e.pageX - ctx.canvas.offsetLeft;
 			const y2 = e.pageY - ctx.canvas.offsetTop;
 			drawCircle(x2,y2);
 			drawLine(x,y,x2,y2);
 			x = x2;
-			y = y2;
+			y = y2;*/
+			x = e.pageX - ctx.canvas.offsetLeft;
+			y = e.pageY - ctx.canvas.offsetTop;
+			drawCircle(x,y);
+			if(prevX!=undefined)	drawLine(prevX,prevY,x,y);
+			prevX = x;
+			prevY = y;
 		}
 	});
 	
@@ -174,5 +176,5 @@ $(document).ready(function(){
 	clearElement.click(()=>{
 		ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
 	});
-	};
+	//};
 });
