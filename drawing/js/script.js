@@ -16,9 +16,27 @@ $(document).ready(function(){
 	const clearElement = $("#clear");
 	//const bounds = document.getElementById("myCanvas").getBoundingClientRect();
 	const ctx = canvas[0].getContext("2d");
+	const canvass = document.getElementById("myCanvas");
+	//const ctx = canvass.getContext("2d");
+	//canvass.width = window.innerWidth;
+	//canvass.height = window.innerHeight;
 	
-	ctx.canvas.width = window.innerWidth;
+	window.addEventListener('resize', resizeCanvas, false);
+	
+	function resizeCanvas() {
+    ctx.canvas.width = window.innerWidth;
 	ctx.canvas.height = window.innerHeight;
+                
+    /**
+     * Your drawings need to be inside this function otherwise they will be reset when 
+     * you resize the browser window and the canvas goes will be cleared.
+     */
+    drawStuff(); 
+  }
+  
+  resizeCanvas();
+	
+	function drawStuff(){
 	$("#mode").click(()=>{
 		$("html").fadeOut(500);
 		setTimeout(function(){
@@ -26,14 +44,16 @@ $(document).ready(function(){
 			$("#mode-icon").toggleClass('fa-moon fa-sun');
 			if(mode==1){
 				canvas.css("background","black");
-				canvas.css("border","2px solid #00A8CC");
-				$(".container").css("background","#00A8CC");
+				canvas.css("border","2px solid #48dbfb");
+				$(".container").css({"border":"5px solid #48dbfb","background":"black"});
+				$("button").css({"border":"2px solid #48dbfb","background":"black","color":"#48dbfb"});
 				$("#mode").css({"background":"white","color":"#ff9900"});
 			}
 			else{
 				canvas.css("background","white");
 				canvas.css("border","2px solid #1E5128");
-				$(".container").css("background","#1E5128");
+				$(".container").css({"border":"0","background":"#1E5128"});
+				$("button").css({"border":"0","background":"white","color":"black"});
 				$("#mode").css({"background":"black","color":"white"});
 			}
 			$("html").fadeIn(500);
@@ -66,28 +86,15 @@ $(document).ready(function(){
 		size = sizeChange;
 		sizeField.val(size);
 	});
-	//var prevX,prevY;
-	//var flag=false,dot_flag=false;
 	//canvas.addEventListener("mousedown",(e)=>{
 	canvas.on("mousedown",(e)=>{
 		isPressed = true;
 		x = e.pageX - ctx.canvas.offsetLeft;
         y = e.pageY - ctx.canvas.offsetTop;
-		/*prevX = x;
-		prevY = y;
-		x = e.offsetX;
-		y = e.offsetY;
-		flag = true;
-		dot_flag = true;
-		if (dot_flag) {
-            drawCircle(x,y);
-            dot_flag = false;
-        }*/
 	});
 	//canvas.addEventListener("mouseup",(e)=>{
-	canvas.on("mouseup",(e)=>{
+	$("document").on("mouseup",(e)=>{
 		isPressed = false;
-		//flag=false;
 		x = undefined;
 		y = undefined;
 	});
@@ -96,6 +103,8 @@ $(document).ready(function(){
 		if(isPressed){
 		//x2 = e.offsetX;
 		//y2 = e.offsetY;
+			e.preventDefault();
+			e.stopPropagation();
 			const x2 = e.pageX - ctx.canvas.offsetLeft;
 			const y2 = e.pageY - ctx.canvas.offsetTop;
 			drawCircle(x2,y2);
@@ -104,7 +113,32 @@ $(document).ready(function(){
 			y = y2;
 		}
 	});
-
+	
+	canvass.addEventListener("touchmove", function (e) {
+		var touch = e.touches[0];
+		var mouseEvent = new MouseEvent("mousemove", {
+			clientX: touch.clientX,
+			clientY: touch.clientY
+		});
+		canvass.dispatchEvent(mouseEvent);
+	}, false);
+	canvass.addEventListener("touchdown", function (e) {
+		var touch = e.touches[0];
+		var mouseEvent = new MouseEvent("mousedown", {
+			clientX: touch.clientX,
+			clientY: touch.clientY
+		});
+		canvass.dispatchEvent(mouseEvent);
+	}, false);
+	canvass.addEventListener("touchup", function (e) {
+		var touch = e.touches[0];
+		var mouseEvent = new MouseEvent("mouseup", {
+			clientX: touch.clientX,
+			clientY: touch.clientY
+		});
+		canvass.dispatchEvent(mouseEvent);
+	}, false);
+	
 	function drawCircle(x,y){
 		ctx.beginPath();
 		ctx.arc(x,y,size,0,Math.PI * 2);
@@ -140,4 +174,5 @@ $(document).ready(function(){
 	clearElement.click(()=>{
 		ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
 	});
+	};
 });
