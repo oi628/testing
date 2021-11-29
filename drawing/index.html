@@ -9,26 +9,28 @@
 </head>
 <body>
 	<div id="upper-toolbox" class="container">
-		<button id="save">SAVE</button>
+		<button id="save" class="go-left">SAVE</button>
 		<button id="mode" class="go-right">
 			<i id="mode-icon"class="fas fa-moon fa-3x"></i>
 		</button>
 	</div>
 	<canvas id="myCanvas" width="500" height="700"></canvas>
 	<div id="lower-toolbox" class="container">
-		<button id="decrease">
-			<i class="fas fa-minus fa-2x"></i>
-		</button>
-		<input id="size" type="text" value="10" align="center"></input>
-		<button id="increase">
-			<i class="fas fa-plus fa-2x"></i>
-		</button>
-		<input id="color" type="color"></input>
+		<div class ="go-left">
+			<button id="decrease">
+				<i class="fas fa-minus fa-2x"></i>
+			</button>
+			<input id="size" type="text" value="10" align="center"></input>
+			<button id="increase">
+				<i class="fas fa-plus fa-2x"></i>
+			</button>
+			<input id="color" type="color"></input>
+		</div>
 		<div class="go-right">
-			<button id="eraser" class="go-right">
+			<button id="eraser">
 				<i class="fas fa-eraser fa-2x"></i>
 			</button>
-			<button id="clear" class="go-right">
+			<button id="clear">
 				<i class="fas fa-times fa-2x"></i>
 			</button>
 		</div>
