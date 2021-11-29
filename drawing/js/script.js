@@ -5,6 +5,7 @@ $(document).ready(function(){
 	let x;
 	let y;
 	let isPressed;
+	let eraser=0;
 	let sizeField = $("#size");
 	/*var canvas = document.getElementById("myCanvas");
 	var colorElement = document.getElementById("color");
@@ -62,6 +63,7 @@ $(document).ready(function(){
 			else	size=size-size%5;
 		}
 		sizeField.val(size);
+		eraser='no';
 	});
 
 	$("#increase").click(()=>{
@@ -71,6 +73,7 @@ $(document).ready(function(){
 			else	size = size + (5-size%5);
 		}
 		sizeField.val(size);
+		eraser='no';
 	});
 
 	let prevX,prevY;
@@ -81,6 +84,7 @@ $(document).ready(function(){
 		else if(sizeChange>50)	sizeChange=50;
 		size = sizeChange;
 		sizeField.val(size);
+		eraser='no';
 	});
 	
 	//canvas.addEventListener("mousedown",(e)=>{
@@ -100,20 +104,26 @@ $(document).ready(function(){
 	//canvas.addEventListener("mousemove",(e)=>{
 	canvas.on("mousemove",(e)=>{
 		if(isPressed){
-			e.preventDefault();
-			e.stopPropagation();
-			/*const x2 = e.pageX - ctx.canvas.offsetLeft;
-			const y2 = e.pageY - ctx.canvas.offsetTop;
-			drawCircle(x2,y2);
-			drawLine(x,y,x2,y2);
-			x = x2;
-			y = y2;*/
-			x = e.pageX - ctx.canvas.offsetLeft;
-			y = e.pageY - ctx.canvas.offsetTop;
-			drawCircle(x,y);
-			drawLine(prevX,prevY,x,y);
-			prevX = x;
-			prevY = y;
+			if(eraser==0){
+				e.preventDefault();
+				e.stopPropagation();
+				x = e.pageX - ctx.canvas.offsetLeft;
+				y = e.pageY - ctx.canvas.offsetTop;
+				drawCircle(x,y);
+				drawLine(prevX,prevY,x,y);
+				prevX = x;
+				prevY = y;
+			}
+			else{
+				e.preventDefault();
+				e.stopPropagation();
+				x = e.pageX - ctx.canvas.offsetLeft;
+				y = e.pageY - ctx.canvas.offsetTop;
+				removeCircle(x,y);
+				//removeLine(prevX,prevY,x,y);
+				prevX = x;
+				prevY = y;
+			}
 		}
 	});
 	
@@ -123,6 +133,7 @@ $(document).ready(function(){
 		prevY = y;
 		x = e.touches[0].pageX - ctx.canvas.offsetLeft;
 		y = e.touches[0].pageY - ctx.canvas.offsetTop;
+		if(eraser!='yes')	drawCircle(x,y);
 	});
 	//canvas.addEventListener("mouseup",(e)=>{
 	canvas.on("touchend",(e)=>{
@@ -137,8 +148,14 @@ $(document).ready(function(){
 			e.stopPropagation();
 			x = e.touches[0].pageX - ctx.canvas.offsetLeft;
 			y = e.touches[0].pageY - ctx.canvas.offsetTop;
-			drawCircle(x,y);
-			drawLine(prevX,prevY,x,y);
+			if(eraser=='yes'){
+				removeCircle(x,y);
+				removeLine(prevX,prevY,x,y);
+			}
+			else{
+				drawCircle(x,y);
+				drawLine(prevX,prevY,x,y);
+			}
 			prevX = x;
 			prevY = y;
 		}
@@ -174,37 +191,60 @@ $(document).ready(function(){
 	function drawCircle(x,y){
 		ctx.beginPath();
 		ctx.arc(x,y,size,0,Math.PI * 2);
+		ctx.globalCompositeOperation = "source-over"; 
 		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.closePath();
 	}
-
+	
+	function removeCircle(x,y){
+		ctx.beginPath();
+		ctx.globalCompositeOperation = "destination-out";  
+		ctx.fillStyle = "rgba(255,255,255,1)";
+		ctx.arc(x,y,size,0,Math.PI * 2,false);
+		//ctx.fillStyle = color;
+		ctx.fill();
+		ctx.closePath();
+	}
 	function drawLine(x,y,x2,y2){
 		ctx.beginPath();
 		ctx.moveTo(x,y);
 		ctx.lineTo(x2,y2);
+		ctx.globalCompositeOperation = "source-over"; 
 		ctx.strokeStyle = color;
 		ctx.lineWidth = size*2;
 		ctx.stroke();
 		ctx.closePath();
 	}
-
+	function removeLine(x,y,x2,y2){
+		ctx.beginPath();
+		ctx.moveTo(x,y);
+		ctx.lineTo(x2,y2);
+		ctx.globalCompositeOperation = "destination-out";  
+		ctx.strokeStyle = "rgba(255,255,255,1)";
+		ctx.lineWidth = size*2;
+		ctx.stroke();
+		ctx.closePath();
+	}
 	//colorElement.addEventListener("change",(e)=>{
 	colorElement.on("change",(e)=>{
 		color = e.target.value;
+		eraser = 0;
 	});
 
 	$("#eraser").click(()=>{
-		if(mode==0)	color = "white";
+		/*if(mode==0)	color = "white";
 		else	color = "black";
 		colorElement.onchange = function() {
 			backRGB = this.value;
-		}
+		}*/
+		eraser = 'yes';
 	});
 	
 	//clearElement.addEventListener("click",()=>{
 	clearElement.click(()=>{
 		ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+		eraser = 'no';
 	});
 	//};
 });
