@@ -63,7 +63,7 @@ $(document).ready(function(){
 			else	size=size-size%5;
 		}
 		sizeField.val(size);
-		eraser='no';
+		eraser=0;
 	});
 
 	$("#increase").click(()=>{
@@ -73,7 +73,7 @@ $(document).ready(function(){
 			else	size = size + (5-size%5);
 		}
 		sizeField.val(size);
-		eraser='no';
+		eraser=0;
 	});
 
 	let prevX,prevY;
@@ -84,7 +84,7 @@ $(document).ready(function(){
 		else if(sizeChange>50)	sizeChange=50;
 		size = sizeChange;
 		sizeField.val(size);
-		eraser='no';
+		eraser=0;
 	});
 	
 	//canvas.addEventListener("mousedown",(e)=>{
@@ -104,26 +104,20 @@ $(document).ready(function(){
 	//canvas.addEventListener("mousemove",(e)=>{
 	canvas.on("mousemove",(e)=>{
 		if(isPressed){
-			if(eraser==0){
-				e.preventDefault();
-				e.stopPropagation();
-				x = e.pageX - ctx.canvas.offsetLeft;
-				y = e.pageY - ctx.canvas.offsetTop;
-				drawCircle(x,y);
-				drawLine(prevX,prevY,x,y);
-				prevX = x;
-				prevY = y;
+			e.preventDefault();
+			e.stopPropagation();
+			x = e.pageX - ctx.canvas.offsetLeft;
+			y = e.pageY - ctx.canvas.offsetTop;
+			if(eraser==1){
+				removeCircle(x,y);
+				removeLine(prevX,prevY,x,y);
 			}
 			else{
-				e.preventDefault();
-				e.stopPropagation();
-				x = e.pageX - ctx.canvas.offsetLeft;
-				y = e.pageY - ctx.canvas.offsetTop;
-				removeCircle(x,y);
-				//removeLine(prevX,prevY,x,y);
-				prevX = x;
-				prevY = y;
+				drawCircle(x,y);
+				drawLine(prevX,prevY,x,y);
 			}
+			prevX = x;
+			prevY = y;
 		}
 	});
 	
@@ -133,7 +127,7 @@ $(document).ready(function(){
 		prevY = y;
 		x = e.touches[0].pageX - ctx.canvas.offsetLeft;
 		y = e.touches[0].pageY - ctx.canvas.offsetTop;
-		if(eraser!='yes')	drawCircle(x,y);
+		if(eraser!=1)	drawCircle(x,y);
 	});
 	//canvas.addEventListener("mouseup",(e)=>{
 	canvas.on("touchend",(e)=>{
@@ -148,7 +142,7 @@ $(document).ready(function(){
 			e.stopPropagation();
 			x = e.touches[0].pageX - ctx.canvas.offsetLeft;
 			y = e.touches[0].pageY - ctx.canvas.offsetTop;
-			if(eraser=='yes'){
+			if(eraser==1){
 				removeCircle(x,y);
 				removeLine(prevX,prevY,x,y);
 			}
@@ -238,13 +232,13 @@ $(document).ready(function(){
 		colorElement.onchange = function() {
 			backRGB = this.value;
 		}*/
-		eraser = 'yes';
+		eraser = 1;
 	});
 	
 	//clearElement.addEventListener("click",()=>{
 	clearElement.click(()=>{
 		ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
-		eraser = 'no';
+		eraser = 0;
 	});
 	//};
 });
