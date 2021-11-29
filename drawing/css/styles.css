@@ -43,7 +43,7 @@ body{
 button, input{
 	width: 10vw;
 	height: 10vw;
-	max-height: 100%;
+	max-height: 90%;
 	background: white;
 	color: black;
 	margin-top: 0;
@@ -59,9 +59,9 @@ button:hover{
 	box-shadow: 0 5px rgba(0,0,0,0.6);
 	cursor: pointer;
 }
-#save, #mode {
-	width: 16vw;
-	height: 16vw;
+#mode {
+	width: 13vw;
+	height: 13vw;
 }
 #save{
 	width: 32vw;
@@ -81,3 +81,23 @@ canvas{
 	border: 2px solid #1E5128;
 	z-index: 1;
 }	
+@media (min-width: 768px){
+	button, input{
+		width: 8vh;
+		height: 8vh;
+	}
+	#mode{
+		width: 8vh;
+		height: 8vh;
+	}
+	
+	#save, #color{
+		width: 16vh;
+	}
+	.go-left{
+		margin-left: 10vw;
+	}
+	.go-right{
+		margin-right: 10vw;
+	}
+}
