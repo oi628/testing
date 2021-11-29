@@ -82,6 +82,7 @@ $(document).ready(function(){
 		size = sizeChange;
 		sizeField.val(size);
 	});
+	
 	//canvas.addEventListener("mousedown",(e)=>{
 	canvas.on("mousedown",(e)=>{
 		isPressed = true;
@@ -91,7 +92,7 @@ $(document).ready(function(){
         y = e.pageY - ctx.canvas.offsetTop;
 	});
 	//canvas.addEventListener("mouseup",(e)=>{
-	$("document").on("mouseup",(e)=>{
+	canvas.on("mouseup",(e)=>{
 		isPressed = false;
 		x = undefined;
 		y = undefined;
@@ -99,8 +100,8 @@ $(document).ready(function(){
 	//canvas.addEventListener("mousemove",(e)=>{
 	canvas.on("mousemove",(e)=>{
 		if(isPressed){
-			//e.preventDefault();
-			//e.stopPropagation();
+			e.preventDefault();
+			e.stopPropagation();
 			/*const x2 = e.pageX - ctx.canvas.offsetLeft;
 			const y2 = e.pageY - ctx.canvas.offsetTop;
 			drawCircle(x2,y2);
@@ -110,37 +111,66 @@ $(document).ready(function(){
 			x = e.pageX - ctx.canvas.offsetLeft;
 			y = e.pageY - ctx.canvas.offsetTop;
 			drawCircle(x,y);
-			if(prevX!=undefined)	drawLine(prevX,prevY,x,y);
+			drawLine(prevX,prevY,x,y);
 			prevX = x;
 			prevY = y;
 		}
 	});
 	
-	canvass.addEventListener("touchmove", function (e) {
-		var touch = e.touches[0];
+	canvas.on("touchstart",(e)=>{
+		isPressed = true;
+		prevX = x;
+		prevY = y;
+		x = e.touches[0].pageX - ctx.canvas.offsetLeft;
+		y = e.touches[0].pageY - ctx.canvas.offsetTop;
+	});
+	//canvas.addEventListener("mouseup",(e)=>{
+	canvas.on("touchend",(e)=>{
+		isPressed = false;
+		x = undefined;
+		y = undefined;
+	});
+	//canvas.addEventListener("mousemove",(e)=>{
+	canvas.on("touchmove",(e)=>{
+		if(isPressed){
+			e.preventDefault();
+			e.stopPropagation();
+			x = e.touches[0].pageX - ctx.canvas.offsetLeft;
+			y = e.touches[0].pageY - ctx.canvas.offsetTop;
+			drawCircle(x,y);
+			drawLine(prevX,prevY,x,y);
+			prevX = x;
+			prevY = y;
+		}
+	});
+	
+	
+	/*canvass.addEventListener("touchmove", function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		let touch = e.touches[0];
 		var mouseEvent = new MouseEvent("mousemove", {
 			clientX: touch.clientX,
 			clientY: touch.clientY
 		});
 		canvass.dispatchEvent(mouseEvent);
 	}, false);
-	canvass.addEventListener("touchdown", function (e) {
-		var touch = e.touches[0];
+	canvass.addEventListener("touchstart", function (e) {
+		let touch = e.touches[0];
 		var mouseEvent = new MouseEvent("mousedown", {
 			clientX: touch.clientX,
 			clientY: touch.clientY
 		});
 		canvass.dispatchEvent(mouseEvent);
 	}, false);
-	canvass.addEventListener("touchup", function (e) {
-		var touch = e.touches[0];
+	canvass.addEventListener("touchend", function (e) {
+		let touch = e.touches[0];
 		var mouseEvent = new MouseEvent("mouseup", {
 			clientX: touch.clientX,
 			clientY: touch.clientY
 		});
 		canvass.dispatchEvent(mouseEvent);
-	}, false);
-	
+	}, false);*/
 	function drawCircle(x,y){
 		ctx.beginPath();
 		ctx.arc(x,y,size,0,Math.PI * 2);
