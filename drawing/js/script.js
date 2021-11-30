@@ -15,6 +15,7 @@ $(document).ready(function(){
 	const canvas = $("canvas");
 	const colorElement = $("#color");
 	const clearElement = $("#clear");
+	const save = $("#save");
 	//const bounds = document.getElementById("myCanvas").getBoundingClientRect();
 	const ctx = canvas[0].getContext("2d");
 	const canvass = document.getElementById("myCanvas");
@@ -33,6 +34,16 @@ $(document).ready(function(){
   //resizeCanvas();
 	
 	//function drawStuff(){
+	save.click(()=>{
+		var link = document.createElement('a');
+		link.setAttribute('download', 'amn.png');
+		//var image = document.getElementById("myCanvas").toDataURL("image/png").replace("image/png", "image/octet-stream");
+		link.setAttribute('href', document.getElementById("myCanvas").toDataURL("image/png").replace("image/png", "image/octet-stream"));
+		link.click();
+		//window.location.href=image;
+		//window.location = document.getElementById("myCanvas").toDataURL('image/png');
+	});
+	
 	$("#mode").click(()=>{
 		$("html").fadeOut(500);
 		setTimeout(function(){
@@ -63,7 +74,6 @@ $(document).ready(function(){
 			else	size=size-size%5;
 		}
 		sizeField.val(size);
-		eraser=0;
 	});
 
 	$("#increase").click(()=>{
@@ -73,7 +83,6 @@ $(document).ready(function(){
 			else	size = size + (5-size%5);
 		}
 		sizeField.val(size);
-		eraser=0;
 	});
 
 	let prevX,prevY;
@@ -84,7 +93,6 @@ $(document).ready(function(){
 		else if(sizeChange>50)	sizeChange=50;
 		size = sizeChange;
 		sizeField.val(size);
-		eraser=0;
 	});
 	
 	//canvas.addEventListener("mousedown",(e)=>{
