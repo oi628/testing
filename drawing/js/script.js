@@ -32,7 +32,7 @@ $(document).ready(function(){
   //}
   
   //resizeCanvas();
-	
+	$(".popup").hide();
 	//function drawStuff(){
 	save.click(()=>{
 		var link = document.createElement('a');
@@ -42,6 +42,7 @@ $(document).ready(function(){
 		link.click();
 		//window.location.href=image;
 		//window.location = document.getElementById("myCanvas").toDataURL('image/png');
+		$(".popup").fadeIn(1000);
 	});
 	
 	$("#mode").click(()=>{
@@ -135,11 +136,11 @@ $(document).ready(function(){
 		prevY = y;
 		x = e.touches[0].pageX - ctx.canvas.offsetLeft;
 		y = e.touches[0].pageY - ctx.canvas.offsetTop;
-		if(eraser!=1)	drawCircle(x,y);
 	});
 	//canvas.addEventListener("mouseup",(e)=>{
 	canvas.on("touchend",(e)=>{
 		isPressed = false;
+		if(eraser!=1)	drawCircle(x,y);
 		x = undefined;
 		y = undefined;
 	});
@@ -249,4 +250,7 @@ $(document).ready(function(){
 		eraser = 0;
 	});
 	//};
+	$("#close").click(()=>{
+		$(".popup").fadeOut(1000);
+	});
 });
