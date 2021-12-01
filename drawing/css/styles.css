@@ -1,5 +1,6 @@
 *{
-box-sizing: border-box;
+	box-sizing: border-box;
+	font-family: Helvetica, Sans-Serif;
 }
 html{
 	box-sizing: border-box;
@@ -23,15 +24,54 @@ body{
 .go-right{
 	margin-left: auto;
 }
+.popup{
+	display: none;
+	width:100%;
+	height: 100%;
+	position: absolute;
+	display : flex;
+	backdrop-filter: blur(5px) grayscale(100%);
+	align-items: center;
+	justify-content: center;
+	z-index: 100;
+}
+.popup>div{
+	border: 5px solid #48dbfb;
+	border-radius: 10px;
+	width: 70vw;
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+	background: black;
+}
+.popup>div>* {
+	padding: 20px;
+}
+#heading1{
+	text-align:center;
+	color: #48dbfb;
+	text-decoration: underline;
+}
+#heading2{
+	text-align:center;
+	color: white;
+}
+#close{
+	margin-left: auto;
+}
+#close i {
+	padding:10px;
+	color: white;
+}
 #upper-toolbox{
 	position: fixed;
     top: 0;
-	z-index: 100;
+	z-index: 99;
 }
 #lower-toolbox{
 	position: fixed;
 	bottom: 0;
-	z-index: 100;
+	z-index: 99;
 }
 #lower-toolbox div {
 	display: flex;
@@ -88,8 +128,8 @@ canvas{
 		height: 8vh;
 	}
 	#mode{
-		width: 8vh;
-		height: 8vh;
+		width: 10vh;
+		height: 10vh;
 	}
 	
 	#save, #color{
@@ -100,5 +140,9 @@ canvas{
 	}
 	.go-right{
 		margin-right: 10vw;
+	}
+	.popup>div{
+		width: 30vw;
+		height: 80vh;
 	}
 }
