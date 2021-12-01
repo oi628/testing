@@ -46,15 +46,19 @@ body{
 }
 .popup>div>* {
 	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 #heading1{
 	text-align:center;
 	color: #48dbfb;
 	text-decoration: underline;
+	font-size: 5vh;
 }
 #heading2{
 	text-align:center;
 	color: white;
+	font-size: 3vh;
 }
 #close{
 	margin-left: auto;
