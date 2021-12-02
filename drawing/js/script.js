@@ -1,4 +1,8 @@
 $(document).ready(function(){
+	
+	$("#save-popup").hide();
+	$("#first-popup").fadeIn(1000);
+	
 	let mode=0;
 	let size = 10;
 	let color = "black";
@@ -7,42 +11,24 @@ $(document).ready(function(){
 	let isPressed;
 	let eraser=0;
 	let sizeField = $("#size");
-	/*var canvas = document.getElementById("myCanvas");
-	var colorElement = document.getElementById("color");
-	var clearElement  = document.getElementById("clear");
 
-	var ctx = canvas.getContext("2d");*/
 	const canvas = $("canvas");
 	const colorElement = $("#color");
 	const clearElement = $("#clear");
 	const save = $("#save");
-	//const bounds = document.getElementById("myCanvas").getBoundingClientRect();
 	const ctx = canvas[0].getContext("2d");
 	const canvass = document.getElementById("myCanvas");
-	//const ctx = canvass.getContext("2d");
-	//canvass.width = window.innerWidth;
-	//canvass.height = window.innerHeight;
 	
-	//window.addEventListener('resize', resizeCanvas, false);
-	
-	//function resizeCanvas() {
     ctx.canvas.width = window.innerWidth;
 	ctx.canvas.height = window.innerHeight;
-    //drawStuff(); 
-  //}
-  
-  //resizeCanvas();
-	$(".popup").hide();
+	
 	//function drawStuff(){
 	save.click(()=>{
 		var link = document.createElement('a');
 		link.setAttribute('download', 'amn.png');
-		//var image = document.getElementById("myCanvas").toDataURL("image/png").replace("image/png", "image/octet-stream");
 		link.setAttribute('href', document.getElementById("myCanvas").toDataURL("image/png").replace("image/png", "image/octet-stream"));
 		link.click();
-		//window.location.href=image;
-		//window.location = document.getElementById("myCanvas").toDataURL('image/png');
-		$(".popup").fadeIn(1000);
+		$("#save-popup").fadeIn(1000);
 	});
 	
 	$("#mode").click(()=>{
@@ -87,7 +73,7 @@ $(document).ready(function(){
 	});
 
 	let prevX,prevY;
-	//document.querySelector("#size").addEventListener("change",function () {
+
 	sizeField.on("change",()=>{
 		sizeChange = parseInt(sizeField.val());
 		if(sizeChange<=0)	sizeChange=1;
@@ -96,7 +82,6 @@ $(document).ready(function(){
 		sizeField.val(size);
 	});
 	
-	//canvas.addEventListener("mousedown",(e)=>{
 	canvas.on("mousedown",(e)=>{
 		isPressed = true;
 		prevX = x;
@@ -104,13 +89,14 @@ $(document).ready(function(){
 		x = e.pageX - ctx.canvas.offsetLeft;
         y = e.pageY - ctx.canvas.offsetTop;
 	});
-	//canvas.addEventListener("mouseup",(e)=>{
+
 	canvas.on("mouseup",(e)=>{
 		isPressed = false;
+		if(eraser!=1)	drawCircle(x,y);
 		x = undefined;
 		y = undefined;
 	});
-	//canvas.addEventListener("mousemove",(e)=>{
+
 	canvas.on("mousemove",(e)=>{
 		if(isPressed){
 			e.preventDefault();
@@ -137,14 +123,14 @@ $(document).ready(function(){
 		x = e.touches[0].pageX - ctx.canvas.offsetLeft;
 		y = e.touches[0].pageY - ctx.canvas.offsetTop;
 	});
-	//canvas.addEventListener("mouseup",(e)=>{
+
 	canvas.on("touchend",(e)=>{
 		isPressed = false;
 		if(eraser!=1)	drawCircle(x,y);
 		x = undefined;
 		y = undefined;
 	});
-	//canvas.addEventListener("mousemove",(e)=>{
+
 	canvas.on("touchmove",(e)=>{
 		if(isPressed){
 			e.preventDefault();
@@ -163,34 +149,7 @@ $(document).ready(function(){
 			prevY = y;
 		}
 	});
-	
-	
-	/*canvass.addEventListener("touchmove", function (e) {
-		e.preventDefault();
-		e.stopPropagation();
-		let touch = e.touches[0];
-		var mouseEvent = new MouseEvent("mousemove", {
-			clientX: touch.clientX,
-			clientY: touch.clientY
-		});
-		canvass.dispatchEvent(mouseEvent);
-	}, false);
-	canvass.addEventListener("touchstart", function (e) {
-		let touch = e.touches[0];
-		var mouseEvent = new MouseEvent("mousedown", {
-			clientX: touch.clientX,
-			clientY: touch.clientY
-		});
-		canvass.dispatchEvent(mouseEvent);
-	}, false);
-	canvass.addEventListener("touchend", function (e) {
-		let touch = e.touches[0];
-		var mouseEvent = new MouseEvent("mouseup", {
-			clientX: touch.clientX,
-			clientY: touch.clientY
-		});
-		canvass.dispatchEvent(mouseEvent);
-	}, false);*/
+
 	function drawCircle(x,y){
 		ctx.beginPath();
 		ctx.arc(x,y,size,0,Math.PI * 2);
@@ -229,28 +188,25 @@ $(document).ready(function(){
 		ctx.stroke();
 		ctx.closePath();
 	}
-	//colorElement.addEventListener("change",(e)=>{
+
 	colorElement.on("change",(e)=>{
 		color = e.target.value;
 		eraser = 0;
 	});
 
 	$("#eraser").click(()=>{
-		/*if(mode==0)	color = "white";
-		else	color = "black";
-		colorElement.onchange = function() {
-			backRGB = this.value;
-		}*/
 		eraser = 1;
 	});
 	
-	//clearElement.addEventListener("click",()=>{
 	clearElement.click(()=>{
 		ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
 		eraser = 0;
 	});
 	//};
-	$("#close").click(()=>{
-		$(".popup").fadeOut(1000);
+	$("#save-close").click(()=>{
+		$("#save-popup").fadeOut(1000);
+	});
+	$("#first-close").click(()=>{
+		$("#first-popup").fadeOut(1000);
 	});
 });
