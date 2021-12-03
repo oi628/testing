@@ -49,16 +49,14 @@ body{
 	padding: 10px;
 	padding-top: 0;
 	font-family: 'Courier New', monospace;
-	/*padding-left: 20px;
-	padding-right: 20px;*/
 }
-#heading1{
+.heading1{
 	text-align:center;
 	color: #48dbfb;
 	text-decoration: underline;
 	font-size: 5vh;
 }
-#heading2{
+.heading2{
 	text-align:center;
 	color: white;
 	font-size: 3vh;
@@ -74,6 +72,10 @@ body{
 	position: fixed;
     top: 0;
 	z-index: 99;
+}
+#downloadLnk{
+	display: inline-block;
+	text-decoration: none;
 }
 #lower-toolbox{
 	position: fixed;
