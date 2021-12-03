@@ -23,13 +23,23 @@ $(document).ready(function(){
 	ctx.canvas.height = window.innerHeight;
 	
 	//function drawStuff(){
-	save.click(()=>{
+		
+		
+	function download() {
+		var dt = canvass.toDataURL('image/jpeg');
+		this.href = dt;
+		$("#save-popup").fadeIn(1000);
+	};
+	downloadLnk.addEventListener('click', download, false);
+		
+		
+	/*save.click(()=>{
 		var link = document.createElement('a');
 		link.setAttribute('download', 'amn.png');
-		link.setAttribute('href', document.getElementById("myCanvas").toDataURL("image/png").replace("image/png", "image/octet-stream"));
+		link.setAttribute('href', document.getElementById("myCanvas").toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream"));
 		link.click();
 		$("#save-popup").fadeIn(1000);
-	});
+	});*/
 	
 	$("#mode").click(()=>{
 		$("html").fadeOut(500);
@@ -48,7 +58,7 @@ $(document).ready(function(){
 				canvas.css("border","2px solid #1E5128");
 				$(".container").css({"border":"0","background":"#1E5128"});
 				$("button").css({"border":"0","background":"white","color":"black"});
-				$("#mode").css({"background":"black","color":"white"});
+				$("#mode").css({"background":"black","color":"white","border":"2px solid white"});
 			}
 			$("html").fadeIn(500);
 		},1000);
